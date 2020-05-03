@@ -5,10 +5,10 @@
 ## principles
 
 * [概述](principles/intro.md)
-* [向量的计算](principles/xiang-liang-de-ji-suan.md)
-* [齐次坐标系](principles/qi-ci-zuo-biao-xi.md)
+* [向量的计算](principles/vector-compute.md)
+* [齐次坐标系](principles/homogeneous-coordinates.md)
 
-## algorithm
+## algorithms
 
-* [Untitled](algorithm/untitled.md)
+* [概述](algorithms/intro.md)
 

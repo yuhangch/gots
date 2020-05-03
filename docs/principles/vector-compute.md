@@ -19,6 +19,7 @@ $$
 设有向量$$\vec{a}=a_{x} \vec{i}+a_{y} \vec{j}+a_{z} \vec{k}, \vec{b}=b_{x} \vec{i}+b_{y} \vec{j}+b_{z} \vec{k}$$
 
 则其向量积的矩阵表达式可用下列符号表示：
+
 $$
 \vec{a} \times \vec{b}=\left|\begin{array}{ccc}\vec{i} & \vec{j} & \vec{k} \\ a_{x} & a_{y} & a_{z} \\ b_{x} & b_{y} & b_{z}\end{array}\right|
 $$
@@ -26,10 +27,13 @@ $$
 ### 坐标表示
 
 向量$$\mathbf{u},\mathbf{v}$$可以定义为平行于基向量的三个正交元素之和：
+
 $$
 \begin{array}{l}\mathbf{u}=u_{1} \mathbf{i}+u_{2} \mathbf{j}+u_{3} \mathbf{k} \\ \mathbf{v}=v_{1} \mathbf{i}+v_{2} \mathbf{j}+v_{3} \mathbf{k}\end{array}
 $$
+
 $$\mathbf{s}=s_{1} \mathbf{i}+s_{2} \mathbf{j}+s_{3} \mathbf{k}=\mathbf{u} \times \mathbf{v}$$的三个标量元素可表示为
+
 $$
 \left(\begin{array}{l}s_{1} \\ s_{2} \\ s_{3}\end{array}\right)=\left(\begin{array}{l}u_{2} v_{3}-u_{3} v_{2} \\ u_{3} v_{1}-u_{1} v_{3} \\ u_{1} v_{2}-u_{2} v_{1}\end{array}\right)
 $$
@@ -37,10 +41,8 @@ $$
 ### 几何意义
 
 如果以向量为边构成一个平行四边形，那么这两个向量叉积的模长与这个平行四边形的正面积相等。
+
 $$
 \|\mathbf{a} \times \mathbf{b}\|=\|\mathbf{a}\|\|\mathbf{b}\| \sin \theta
 $$
-
-
-
 
