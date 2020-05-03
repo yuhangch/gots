@@ -1,11 +1,14 @@
-# Summary
+# Table of contents
 
-## Use headings to create page groups like this one
+* [GOTS](README.md)
 
-* [intro](README.md)    
-    
-## A second-page group
+## principles
 
-* [principles](principles/intro.md)
-    * [Some child page](principles/1.md)    
-    * [Some other child page](principles/2.md)    
+* [概述](principles/intro.md)
+* [向量的计算](principles/xiang-liang-de-ji-suan.md)
+* [齐次坐标系](principles/qi-ci-zuo-biao-xi.md)
+
+## algorithm
+
+* [Untitled](algorithm/untitled.md)
+
