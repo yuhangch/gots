@@ -7,6 +7,7 @@
 * [概述](principles/intro.md)
 * [向量的计算](principles/vector-compute.md)
 * [齐次坐标系](principles/homogeneous-coordinates.md)
+* [维度拓展的9交叉模型](principles/de9im.md)
 
 ## geometric
 
