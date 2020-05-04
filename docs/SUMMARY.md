@@ -11,4 +11,6 @@
 ## algorithms
 
 * [概述](algorithms/intro.md)
+* [线段交点](algorithms/segment-intersection.md)
+* [点到直线的距离](algorithms/point-segment-distance.md)
 
