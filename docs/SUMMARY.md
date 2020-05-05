@@ -12,6 +12,7 @@
 ## geometric
 
 * [概述](geometric/intro.md)
-* [线段交点](geometric/segment-intersection.md)
 * [点到直线的距离](geometric/point-segment-distance.md)
+* [线段交点](geometric/segment-intersection.md)
+* [计算边缘距离](geometric/compute-edge-distance.md)
 
