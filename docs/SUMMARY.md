@@ -15,4 +15,5 @@
 * [点到直线的距离](geometric/point-segment-distance.md)
 * [线段交点](geometric/segment-intersection.md)
 * [计算边缘距离](geometric/compute-edge-distance.md)
+* [空间关系计算](geometric/spatial-rs.md)
 
