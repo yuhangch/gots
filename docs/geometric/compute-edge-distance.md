@@ -19,5 +19,7 @@
 
 这种方法认为，边缘中的点的$$x,y$$坐标是唯一的，这时该度量由边缘在垂直和水平方向的较大值来决定。
 
+![Edge Distance](../.gitbook/assets/ege-distance.png)
+
 
 
