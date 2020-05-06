@@ -5,49 +5,65 @@ import (
 	"github.com/yuhangch/gots/geom"
 )
 
-var (
-//seg geom.LineSegment
-)
+type DpCfg struct {
+	save      *[]bool
+	line      *geom.LineString
+	tolerance float64
+}
 
-func dp(line geom.LineString, tolerance float64) {
-	save := make([]bool, len(line.Points))
+func dp(line geom.LineString, tolerance float64) geom.LineString {
+	save := make([]bool, len(line))
 	for k := range save {
 		save[k] = true
 	}
-	dpSection(0,len(line.Points)-1,line, tolerance,save)
+	cfg := &DpCfg{
+		save:      &save,
+		line:      &line,
+		tolerance: tolerance,
+	}
 
+	dpSection(0, len(line)-1, cfg)
+
+	var points []geom.Point
+	for k, v := range save {
+		if v == true {
+			points = append(points, line[k])
+		}
+	}
+	return points
 
 }
 
-func dpSection(head, tail int, line geom.LineString, tolerance float64, save []bool) {
+func dpSection(head, tail int, cfg *DpCfg) {
 	var (
 		dMax = -1.0
 		iMax = 1
-		pnts = line.Points
+		pnts = cfg.line
 	)
 	if head+1 == tail {
 		return
 	}
 	seg := geom.LineSegment{
-		P0: pnts[head],
-		P1: pnts[tail],
+		(*pnts)[head],
+		(*pnts)[tail],
 	}
+	var k int
 
-	for k := head + 1; k < head; k++ {
-		d := distance.PointToSegment(pnts[k], seg)
+	for k = head + 1; k < tail; k++ {
+		d := distance.PointToSegment((*pnts)[k], seg)
 		if d > dMax {
 			dMax = d
 			iMax = k
 		}
 	}
 
-	if dMax <= tolerance {
+	if dMax <= cfg.tolerance {
 		for k := head + 1; k < tail; k++ {
-			save[k] = false
+			(*cfg.save)[k] = false
 		}
 	} else {
-		dpSection(head, iMax,line,tolerance,save)
-		dpSection(iMax,tail,line,tolerance,save)
+		dpSection(head, iMax, cfg)
+		dpSection(iMax, tail, cfg)
 	}
 
 }

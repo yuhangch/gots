@@ -1,5 +1,5 @@
 package geom
 
 type Coordinate struct {
-	X,Y,Z float64
+	X, Y float64
 }
