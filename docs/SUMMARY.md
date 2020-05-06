@@ -17,3 +17,8 @@
 * [计算边缘距离](geometric/compute-edge-distance.md)
 * [空间关系计算](geometric/spatial-rs.md)
 
+## simplify
+
+* [概述](simplify/intro.md)
+* [道格拉斯-普克算法](simplify/dp.md)
+
