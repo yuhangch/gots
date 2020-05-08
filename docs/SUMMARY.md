@@ -21,4 +21,5 @@
 
 * [概述](simplify/intro.md)
 * [道格拉斯-普克算法](simplify/dp.md)
+* [维斯瓦林甘算法](simplify/vm.md)
 
