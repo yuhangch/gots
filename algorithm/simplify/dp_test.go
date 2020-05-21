@@ -18,8 +18,8 @@ func TestDp(t *testing.T) {
 		geom.Point{X: 7, Y: 2},
 		geom.Point{X: 10, Y: 3}}
 
-	ans := dp(line, 1)
+	ans := DP(line, 1)
 	if len(ans) != 4 {
-		t.Errorf("error for dp test")
+		t.Errorf("error for DP test")
 	}
 }

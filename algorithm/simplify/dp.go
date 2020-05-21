@@ -11,7 +11,7 @@ type DpCfg struct {
 	tolerance float64
 }
 
-func dp(line geom.LineString, tolerance float64) geom.LineString {
+func DP(line geom.LineString, tolerance float64) geom.LineString {
 	save := make([]bool, len(line))
 	for k := range save {
 		save[k] = true
@@ -47,9 +47,8 @@ func dpSection(head, tail int, cfg *DpCfg) {
 		(*pnts)[head],
 		(*pnts)[tail],
 	}
-	var k int
 
-	for k = head + 1; k < tail; k++ {
+	for k := head + 1; k < tail; k++ {
 		d := distance.PointToSegment((*pnts)[k], seg)
 		if d > dMax {
 			dMax = d
