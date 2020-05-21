@@ -16,3 +16,10 @@ func (p Point) Type() string {
 func (p Point) Envelope() Envelope {
 	return Envelope{}
 }
+
+func (p Point) Equals(p2 Point) bool {
+	if p.X() == p2.X() && p.Y() == p2.Y() {
+		return true
+	}
+	return false
+}

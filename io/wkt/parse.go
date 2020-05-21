@@ -46,15 +46,18 @@ func (p *Parser) parseGeometryType() (geom geom.Geometry) {
 		case "LINESTRING":
 			geom = p.handleParen(p.parseLineString)
 			fmt.Println(geom)
+		case "POLYGON":
+			geom = p.handleParen(p.parsePolygon)
+			fmt.Println(geom)
 		}
 
 	}
 	return
 }
 
-func (p *Parser) handleParen(parse func() geom.Geometry) (coordinates geom.Geometry) {
+func (p *Parser) handleParen(parse func() geom.Geometry) (geom geom.Geometry) {
 	if p.match(LEFT_PAREN) {
-		coordinates = parse()
+		geom = parse()
 		if p.match(RIGHT_PAREN) {
 			return
 		} else {
@@ -95,4 +98,26 @@ func (p *Parser) parseLineString() geom.Geometry {
 	}
 
 	return line
+}
+func (p *Parser) parseLinearRing() geom.Geometry {
+	var ring geom.LinearRing
+	ring = append(ring, p.parsePoint().(geom.Point))
+	for p.match(COMMA) {
+		ring = append(ring, p.parsePoint().(geom.Point))
+	}
+	if !ring.Valid() {
+		panic("数据出错")
+	}
+
+	return ring
+}
+
+func (p *Parser) parsePolygon() geom.Geometry {
+	var pg geom.Polygon
+	pg = append(pg, p.handleParen(p.parseLinearRing).(geom.LinearRing))
+	for p.match(COMMA) {
+		pg = append(pg, p.handleParen(p.parseLinearRing).(geom.LinearRing))
+	}
+
+	return pg
 }
