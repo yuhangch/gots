@@ -5,7 +5,7 @@ import "fmt"
 type LinearRing LineString
 
 func (r LinearRing) Type() string {
-	return "LineString"
+	return string(LINEAR_RING)
 }
 
 func (r LinearRing) Envelope() Envelope {
@@ -24,11 +24,10 @@ func (r LinearRing) Valid() bool {
 
 func NewLinearRing(cs []Coordinate) (LinearRing, error) {
 	var ring LinearRing
-	for _, v := range cs {
-		ring = append(ring, v)
-	}
-	if len(ring) < 1 || ring == nil {
-		return nil, fmt.Errorf("数据为空")
+	ring = cs
+
+	if len(ring) < 3 || ring == nil {
+		return nil, fmt.Errorf("数据错误")
 	}
 	if ring.Valid() {
 		return ring, nil

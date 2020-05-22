@@ -10,7 +10,7 @@ func (p Point) Distance(target Point) float64 {
 }
 
 func (p Point) Type() string {
-	return "Point"
+	return string(POINT)
 }
 
 func (p Point) Envelope() Envelope {

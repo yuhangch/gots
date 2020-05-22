@@ -11,7 +11,8 @@ type Parser struct {
 	token Token
 }
 
-func NewParser(l *Lexer) *Parser {
+func NewParser(wkt string) *Parser {
+	l := NewLexer(wkt)
 	return &Parser{
 		lexer: l,
 		token: l.nextToken(),
@@ -42,16 +43,18 @@ func (p *Parser) parseGeometryType() (geom geom.Geometry) {
 		switch geomType {
 		case "POINT":
 			geom = p.handleParen(p.parsePoint)
-			fmt.Println(geom)
 		case "LINESTRING":
 			geom = p.handleParen(p.parseLineString)
-			fmt.Println(geom)
 		case "POLYGON":
 			geom = p.handleParen(p.parsePolygon)
-			fmt.Println(geom)
+		case "MULTIPOINT":
+			geom = p.handleParen(p.parseMultiPoint)
+
 		}
 
 	}
+	fmt.Println(geom)
+
 	return
 }
 
@@ -90,6 +93,29 @@ func (p *Parser) parsePoint() geom.Geometry {
 	return geom.NewCoordinate(digits)
 }
 
+func (p *Parser) parsePointList(t geom.GeometryType) geom.Geometry {
+	var points []geom.Point
+	points = append(points, p.parsePoint().(geom.Point))
+	for p.match(COMMA) {
+		points = append(points, p.parsePoint().(geom.Point))
+	}
+	switch t {
+	case geom.LINE_STRING:
+		return geom.NewLineString(points)
+	case geom.LINEAR_RING:
+		ring, err := geom.NewLinearRing(points)
+		if err != nil {
+			panic("ring 解析错误")
+		}
+		return ring
+	case geom.MULTI_POINT:
+		return geom.NewMultiPoint(points)
+
+	}
+	return nil
+
+}
+
 func (p *Parser) parseLineString() geom.Geometry {
 	var line geom.LineString
 	line = append(line, p.parsePoint().(geom.Point))
@@ -108,7 +134,6 @@ func (p *Parser) parseLinearRing() geom.Geometry {
 	if !ring.Valid() {
 		panic("数据出错")
 	}
-
 	return ring
 }
 
@@ -118,6 +143,18 @@ func (p *Parser) parsePolygon() geom.Geometry {
 	for p.match(COMMA) {
 		pg = append(pg, p.handleParen(p.parseLinearRing).(geom.LinearRing))
 	}
-
 	return pg
+}
+
+func (p *Parser) parseMultiPoint() geom.Geometry {
+	var mp geom.MultiPoint
+	if p.isTokenType(LEFT_PAREN) {
+		mp = append(mp, p.handleParen(p.parsePoint).(geom.Point))
+		for p.match(COMMA) {
+			mp = append(mp, p.handleParen(p.parsePoint).(geom.Point))
+		}
+	} else {
+		return p.parsePointList(geom.MULTI_POINT)
+	}
+	return mp
 }
