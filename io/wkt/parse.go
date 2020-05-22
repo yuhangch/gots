@@ -65,7 +65,7 @@ func (p *Parser) parse() (geom geom.Geometry) {
 func (p *Parser) parseGeometry(geomType string) (geom geom.Geometry) {
 
 	switch geomType {
-	case "POINT":
+	case "PointType":
 		geom = p.handleParen(p.parsePoint)
 	case "LINESTRING":
 		geom = p.handleParen(p.parseLineString)

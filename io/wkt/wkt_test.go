@@ -6,12 +6,14 @@ import (
 
 func TestParsePoint(t *testing.T) {
 	txt := "POINT (-30.3333 +10.1111)"
-	Read(txt)
+	g := Read(txt)
+	Write(g)
 }
 
 func TestParseLineString(t *testing.T) {
 	txt := "LINESTRING (30.6666 10, 10.9999 30, 40 40)"
-	Read(txt)
+	g := Read(txt)
+	Write(g)
 }
 
 func TestParsePolygon(t *testing.T) {

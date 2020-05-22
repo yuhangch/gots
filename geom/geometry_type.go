@@ -3,7 +3,7 @@ package geom
 type GeometryType string
 
 const (
-	POINT               GeometryType = "Point"
+	PointType           GeometryType = "Point"
 	LINE_STRING                      = "LineString"
 	LINEAR_RING                      = "LinearRing"
 	POLYGON                          = "Polygon"
