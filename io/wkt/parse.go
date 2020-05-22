@@ -35,12 +35,14 @@ func (p *Parser) match(tokenType TokenType) bool {
 	return isMatch
 }
 
-func (p *Parser) parseGeometryType() (geom geom.Geometry) {
+func (p *Parser) parse() (geom geom.Geometry) {
 	token := p.token
 	if p.match(TEXT) {
 		geomType := token.value
 
 		switch geomType {
+		case "GEOMETRYCOLLECTION":
+			geom = p.handleParen(p.parseGeometryCollection)
 		case "POINT":
 			geom = p.handleParen(p.parsePoint)
 		case "LINESTRING":
@@ -49,10 +51,35 @@ func (p *Parser) parseGeometryType() (geom geom.Geometry) {
 			geom = p.handleParen(p.parsePolygon)
 		case "MULTIPOINT":
 			geom = p.handleParen(p.parseMultiPoint)
+		case "MULTILINESTRING":
+			geom = p.handleParen(p.parseMultiLineString)
+		case "MULTIPOLYGON":
+			geom = p.handleParen(p.parseMultiPolygon)
 
 		}
+	}
+	fmt.Println(geom)
+	return geom
+}
+
+func (p *Parser) parseGeometry(geomType string) (geom geom.Geometry) {
+
+	switch geomType {
+	case "POINT":
+		geom = p.handleParen(p.parsePoint)
+	case "LINESTRING":
+		geom = p.handleParen(p.parseLineString)
+	case "POLYGON":
+		geom = p.handleParen(p.parsePolygon)
+	case "MULTIPOINT":
+		geom = p.handleParen(p.parseMultiPoint)
+	case "MULTILINESTRING":
+		geom = p.handleParen(p.parseMultiLineString)
+	case "MULTIPOLYGON":
+		geom = p.handleParen(p.parseMultiPolygon)
 
 	}
+
 	fmt.Println(geom)
 
 	return
@@ -93,26 +120,13 @@ func (p *Parser) parsePoint() geom.Geometry {
 	return geom.NewCoordinate(digits)
 }
 
-func (p *Parser) parsePointList(t geom.GeometryType) geom.Geometry {
+func (p *Parser) parsePointList() geom.Geometry {
 	var points []geom.Point
 	points = append(points, p.parsePoint().(geom.Point))
 	for p.match(COMMA) {
 		points = append(points, p.parsePoint().(geom.Point))
 	}
-	switch t {
-	case geom.LINE_STRING:
-		return geom.NewLineString(points)
-	case geom.LINEAR_RING:
-		ring, err := geom.NewLinearRing(points)
-		if err != nil {
-			panic("ring 解析错误")
-		}
-		return ring
-	case geom.MULTI_POINT:
-		return geom.NewMultiPoint(points)
-
-	}
-	return nil
+	return geom.NewMultiPoint(points)
 
 }
 
@@ -154,7 +168,35 @@ func (p *Parser) parseMultiPoint() geom.Geometry {
 			mp = append(mp, p.handleParen(p.parsePoint).(geom.Point))
 		}
 	} else {
-		return p.parsePointList(geom.MULTI_POINT)
+		return p.parsePointList()
 	}
 	return mp
+}
+
+func (p *Parser) parseMultiLineString() geom.Geometry {
+	var ml geom.MultiLineString
+	ml = append(ml, p.handleParen(p.parseLineString).(geom.LineString))
+	for p.match(COMMA) {
+		ml = append(ml, p.handleParen(p.parseLineString).(geom.LineString))
+	}
+	return ml
+}
+
+func (p *Parser) parseMultiPolygon() geom.Geometry {
+	var mp geom.MultiPolygon
+	mp = append(mp, p.handleParen(p.parsePolygon).(geom.Polygon))
+	for p.match(COMMA) {
+		mp = append(mp, p.handleParen(p.parsePolygon).(geom.Polygon))
+	}
+	return mp
+}
+
+func (p *Parser) parseGeometryCollection() geom.Geometry {
+	var geoms geom.GeometryCollection
+	geoms = append(geoms, p.parse())
+	for p.match(COMMA) {
+		geoms = append(geoms, p.parse())
+	}
+	return geoms
+
 }
