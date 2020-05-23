@@ -2,13 +2,13 @@
 description: 将JTS转化为数学原理、文档以及部分Golang的实现。
 ---
 
-# GOTS
+# GOTS (translate jTS in GOlang)
 
 ## GOTS
 
-在阅读JTS过程中，一些数学原理和空间图形算法的记录。
+Some mathematical principles and spatial graphics algorithm in JTS.
 
 ## Gitbook
 
-图书版本托管在 [gitbook](https://yuhangch.gitbook.io/gots/).
+Book version  [gitbook](https://yuhangch.gitbook.io/gots/).
 
