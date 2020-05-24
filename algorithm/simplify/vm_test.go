@@ -8,16 +8,16 @@ import (
 
 func TestVm(t *testing.T) {
 	line := geom.LineString{
-		geom.Point{X: -10.0, Y: 0.0},
-		geom.Point{X: -8, Y: 2},
-		geom.Point{X: -7, Y: 1},
-		geom.Point{X: -3, Y: 4},
-		geom.Point{X: -2, Y: 2},
-		geom.Point{X: 2, Y: -1},
-		geom.Point{X: 5, Y: 0},
-		geom.Point{X: 6, Y: 1},
-		geom.Point{X: 7, Y: 2},
-		geom.Point{X: 10, Y: 3}}
+		geom.Point{-10.0, 0.0},
+		geom.Point{-8, 2},
+		geom.Point{-7, 1},
+		geom.Point{-3, 4},
+		geom.Point{-2, 2},
+		geom.Point{2, -1},
+		geom.Point{5, 0},
+		geom.Point{6, 1},
+		geom.Point{7, 2},
+		geom.Point{10, 3}}
 
 	ans := VM(line, 3)
 	//if len(ans) != 4 {

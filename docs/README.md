@@ -10,5 +10,5 @@ Some mathematical principles and spatial graphics algorithm in JTS.
 
 ## Gitbook
 
-Book version  [gitbook](https://yuhangch.gitbook.io/gots/).
+Book version [gitbook](https://yuhangch.gitbook.io/gots/).
 
