@@ -8,6 +8,15 @@ type Key struct {
 	interval Interval
 }
 
+func NewKey(interval Interval) *Key {
+	k := &Key{
+		point: 0,
+		level: 0,
+	}
+	k.computeKey(interval)
+	return k
+}
+
 func computeLevel(interval Interval) int {
 	delta := interval.width()
 	return (int)(math.Sqrt(delta)) + 1
@@ -17,7 +26,7 @@ func (k *Key) computeKey(item Interval) {
 	k.level = computeLevel(item)
 	k.interval = NewInterval(0, 0)
 	k.computeInterval(k.level, item)
-	for !k.interval.contains(item.min(), item.max()) {
+	for !k.interval.contains(item) {
 		k.level++
 		k.computeInterval(k.level, item)
 	}

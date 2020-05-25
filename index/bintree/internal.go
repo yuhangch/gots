@@ -10,6 +10,10 @@ func (i *Interval) max() float64 {
 	return i[1]
 }
 
+func (i *Interval) isEmpty() bool {
+	return i.max() == 0 && i.min() == 0
+}
+
 func (i *Interval) width() float64 {
 	return i.max() - i.min()
 }
