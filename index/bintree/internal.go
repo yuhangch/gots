@@ -29,8 +29,8 @@ func (i *Interval) overlaps(t Interval) bool {
 	return !(i.min() > t.max() || i.max() < t.min())
 }
 
-func (i *Interval) contains(min, max float64) bool {
-	return i.min() <= min && i.max() >= max
+func (i *Interval) contains(iter Interval) bool {
+	return i.min() <= iter.min() && i.max() >= iter.max()
 }
 
 func (i *Interval) expandToContain(item Interval) {

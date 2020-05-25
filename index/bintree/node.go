@@ -27,6 +27,18 @@ func (nb *NodeBase) addAll(items []interface{}) []interface{} {
 }
 
 type Root struct {
+	NodeBase
+}
+
+func (r *Root) insertContained(tree Node, itemIterval Interval, item interface{}) {
+	if tree.interval.contains(itemIterval) {
+		panic("")
+	}
+
+}
+
+func (r *Root) isSearchMatch(item Interval) bool {
+	return true
 }
 
 type Node struct {
