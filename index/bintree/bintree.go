@@ -34,13 +34,22 @@ func ensureExtent(itemInterval Interval, minE float64) Interval {
 	如果间隔是null，会返回树上所有的items
 	min max 需要为同一个值？
 */
-func (bt *BinTree) query(interval Interval) {
-
+func (bt *BinTree) query(x float64) []interface{} {
+	return bt.queryByInterval(NewInterval(x, x))
 }
 
-func (bt *BinTree) remove(itemInterval Interval, item interface{}) {
+func (bt *BinTree) queryByInterval(interval Interval) []interface{} {
+	var founds []interface{}
+	return bt.queryAndAppend(interval, founds)
+}
+
+func (bt *BinTree) queryAndAppend(interval Interval, founds []interface{}) []interface{} {
+	return bt.root.addAllOverlapingItems(interval, founds)
+}
+
+func (bt *BinTree) remove(itemInterval Interval, item interface{}) bool {
 	insertInterval := ensureExtent(itemInterval, bt.minExtend)
-	return bt.root.remove()
+	return bt.root.remove(insertInterval, item)
 }
 
 func (bt *BinTree) depth() int {
@@ -57,4 +66,11 @@ func (bt *BinTree) size() int {
 	}
 	return 0
 
+}
+
+func (bt *BinTree) collectStats(interval Interval) {
+	width := interval.width()
+	if width < bt.minExtend && width > 0.0 {
+		bt.minExtend = width
+	}
 }

@@ -35,27 +35,44 @@ func (nb *NodeBase) add(item interface{}) {
 }
 func (nb *NodeBase) addAll(items []interface{}) []interface{} {
 	items = append(items, nb.Items...)
-	for i := 0; i < 2; i++ {
-		if !nb.children[i].isEmpty() {
-			nb.children[i].Items = append(nb.children[i].Items, items...)
+	for _, v := range nb.children {
+		if v != nil {
+			v.Items = append(v.Items, items...)
 		}
 	}
 	return items
 }
 
-func (nb *NodeBase) addAllOverlapingItems(interval Interval, result []interface{}) {
+func (nb *NodeBase) addAllOverlapingItems(interval Interval, result []interface{}) []interface{} {
 	if !interval.isEmpty() && nb.isSearchMatch(interval) {
-		return
+		return result
 	}
 
 	result = append(result, nb.Items...)
-	if !nb.children[0].isEmpty() {
-		nb.children[0].addAllOverlapingItems(interval, result)
-	}
-	if !nb.children[1].isEmpty() {
-		nb.children[1].addAllOverlapingItems(interval, result)
-	}
 
+	for _, v := range nb.children {
+		if v != nil {
+			v.addAllOverlapingItems(interval, result)
+		}
+	}
+	return result
+}
+
+func (nb *NodeBase) allChildren() (*Node, *Node) {
+	return nb.children[0], nb.children[1]
+}
+
+func (nb *NodeBase) hasChildren() bool {
+	for _, v := range nb.children {
+		if v != nil {
+			return true
+		}
+	}
+	return false
+}
+
+func (nb *NodeBase) hasItems() bool {
+	return len(nb.Items) > 0
 }
 
 func (nb *NodeBase) remove(itemInterval Interval, item interface{}) bool {
@@ -63,20 +80,32 @@ func (nb *NodeBase) remove(itemInterval Interval, item interface{}) bool {
 		return false
 	}
 	found := false
-	for i := 1; i < 2; i++ {
-		if !nb.children[i].isEmpty() {
-			found = nb.children[i].remove(itemInterval, item)
-		}
-		if found {
-			if nb.children[i].isPrunable() {
-
+	for _, v := range nb.children {
+		if v != nil {
+			found = v.remove(itemInterval, item)
+			if found {
+				if v.isPrunable() {
+					v = nil
+				}
 			}
 		}
+
 	}
+	if found {
+		return found
+	}
+	for k, v := range nb.Items {
+		if v == item {
+			nb.Items = append(nb.Items[0:k], nb.Items[k+1:len(nb.Items)-1]...)
+			return true
+
+		}
+	}
+	return false
 }
 
 func (nb *NodeBase) isPrunable() bool {
-
+	return !(nb.hasChildren() || nb.hasItems())
 }
 
 func (nb *NodeBase) depth() int {
