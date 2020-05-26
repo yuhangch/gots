@@ -23,3 +23,8 @@
 * [道格拉斯-普克算法](simplify/dp.md)
 * [维斯瓦林甘算法](simplify/vm.md)
 
+## INDEX
+
+* [概述](index/intro.md)
+* [二叉树](index/bintree.md)
+
