@@ -47,13 +47,18 @@ func (bt *BinTree) queryAndAppend(interval Interval, founds []interface{}) []int
 	return bt.root.addAllOverlapingItems(interval, founds)
 }
 
+func (bt *BinTree) insert(itemInterval Interval, item interface{}) {
+	bt.collectStats(itemInterval)
+	bt.root.insert(ensureExtent(itemInterval, bt.minExtend), item)
+}
+
 func (bt *BinTree) remove(itemInterval Interval, item interface{}) bool {
 	insertInterval := ensureExtent(itemInterval, bt.minExtend)
 	return bt.root.remove(insertInterval, item)
 }
 
 func (bt *BinTree) depth() int {
-	if !bt.root.isEmpty() {
+	if !(bt.root == nil) {
 		return bt.root.depth()
 	}
 	return 0
@@ -61,7 +66,7 @@ func (bt *BinTree) depth() int {
 }
 
 func (bt *BinTree) size() int {
-	if !bt.root.isEmpty() {
+	if !(bt.root == nil) {
 		return bt.root.size()
 	}
 	return 0

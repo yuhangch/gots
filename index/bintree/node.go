@@ -1,5 +1,7 @@
 package bintree
 
+import "fmt"
+
 type NodeBase struct {
 	Items         []interface{}
 	children      [2]*Node
@@ -19,12 +21,12 @@ func childIndex(itemInterval Interval, centre float64) int {
 
 func createExpanded(node *Node, add Interval) *Node {
 	expand := NewInterval(add.min(), add.max())
-	if !node.isEmpty() {
+	if !(node == nil) {
 		expand.expandToContain(node.interval)
 
 	}
 	larger := NewNodeByInterval(expand)
-	if !node.isEmpty() {
+	if !(node == nil) {
 		larger.insert(node)
 	}
 	return larger
@@ -44,11 +46,13 @@ func (nb *NodeBase) addAll(items []interface{}) []interface{} {
 }
 
 func (nb *NodeBase) addAllOverlapingItems(interval Interval, result []interface{}) []interface{} {
-	if !interval.isEmpty() && nb.isSearchMatch(interval) {
+
+	if !interval.isEmpty() && !nb.isSearchMatch(interval) {
 		return result
 	}
 
 	result = append(result, nb.Items...)
+	//fmt.Println(nb.Items,interval)
 
 	for _, v := range nb.children {
 		if v != nil {
@@ -111,7 +115,7 @@ func (nb *NodeBase) isPrunable() bool {
 func (nb *NodeBase) depth() int {
 	childMaxDepth := 0
 	for i := 0; i < 2; i++ {
-		if !nb.children[i].isEmpty() {
+		if !(nb.children[i] == nil) {
 			childDpt := nb.children[i].depth()
 			if childDpt > childMaxDepth {
 				childMaxDepth = childDpt
@@ -124,7 +128,7 @@ func (nb *NodeBase) depth() int {
 func (nb *NodeBase) size() int {
 	childSize := 0
 	for i := 0; i < 2; i++ {
-		if !nb.children[i].isEmpty() {
+		if !(nb.children[i] == nil) {
 			childSize += nb.children[i].size()
 		}
 	}
@@ -135,7 +139,7 @@ func (nb *NodeBase) size() int {
 func (nb *NodeBase) nodeSize() int {
 	childSize := 0
 	for i := 0; i < 2; i++ {
-		if !nb.children[i].isEmpty() {
+		if !(nb.children[i] == nil) {
 			childSize += nb.children[i].nodeSize()
 		}
 	}
@@ -148,13 +152,12 @@ type Root struct {
 }
 
 func NewRoot() *Root {
-	return &Root{
+	root := &Root{
+
 		origin: 0,
 	}
-}
-
-func (r *Root) isEmpty() bool {
-	return true
+	root.NodeBase.isSearchMatch = root.isSearchMatch
+	return root
 }
 
 func (r *Root) insert(interval Interval, item interface{}) {
@@ -164,7 +167,7 @@ func (r *Root) insert(interval Interval, item interface{}) {
 		return
 	}
 	child := r.children[index]
-	if child.isEmpty() || !child.interval.contains(interval) {
+	if child == nil || !child.interval.contains(interval) {
 		larger := createExpanded(child, interval)
 		r.children[index] = larger
 	}
@@ -174,17 +177,18 @@ func (r *Root) insert(interval Interval, item interface{}) {
 
 //
 func (r *Root) insertContained(tree *Node, itemIterval Interval, item interface{}) {
-	if tree.interval.contains(itemIterval) {
-		panic("")
+	if !tree.interval.contains(itemIterval) {
+		fmt.Println("insert content")
+		return
 	}
-	zero := itemIterval.width() < 0.0001
+	zero := itemIterval.width() == 0
 	node := &Node{}
 	if zero {
 		node = tree.find(itemIterval)
 	} else {
 		node = tree.node(itemIterval)
 	}
-	node.add(itemIterval)
+	node.add(item)
 
 }
 
@@ -200,11 +204,13 @@ type Node struct {
 }
 
 func NewNode(interval Interval, level int) *Node {
-	return &Node{
+	node := &Node{
 		interval: interval,
 		level:    level,
 		centre:   interval.centre(),
 	}
+	node.NodeBase.isSearchMatch = node.isSearchMatch
+	return node
 }
 
 func NewNodeByInterval(interval Interval) *Node {
@@ -232,7 +238,7 @@ func (n *Node) find(search Interval) *Node {
 	if childIndex == -1 {
 		return n
 	}
-	if !n.children[childIndex].isEmpty() {
+	if !(n.children[childIndex] == nil) {
 		node := n.child(childIndex)
 		return node.find(search)
 	}
@@ -260,11 +266,11 @@ func (n *Node) createChild(index int) (child *Node) {
 
 func (n *Node) createExpanded(node *Node, interval Interval) *Node {
 	expand := NewInterval(interval.min(), interval.max())
-	if node.isEmpty() {
+	if node == nil {
 		expand.expandToContain(node.interval)
 	}
 	larger := NewNodeByInterval(expand)
-	if node.isEmpty() {
+	if node == nil {
 		larger.insert(node)
 	}
 	return larger
@@ -285,7 +291,7 @@ func (n *Node) insert(node *Node) {
 }
 
 func (n *Node) child(index int) *Node {
-	if n.children[index].isEmpty() {
+	if n.children[index] == nil {
 		n.children[index] = n.createChild(index)
 	}
 	return n.children[index]
