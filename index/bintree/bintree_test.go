@@ -38,29 +38,36 @@ func initTree() {
 	}
 }
 
-func queryGrid(n int, cellSize float64) {
+func queryGrid(n int, cellSize float64, t *testing.T) {
 	gridSize := math.Floor(math.Sqrt(float64(n))) + 1
 	extent := maxExt - minExt
 	delta := extent / gridSize
 	for i := 0; i < int(gridSize); i++ {
 		x := minExt + delta*float64(i)
-		query(NewInterval(x, x+cellSize))
+		query(NewInterval(x, x+cellSize), t)
 	}
 }
 
-func query(interval Interval) {
+func query(interval Interval, t *testing.T) {
 	candidates := tree.queryByInterval(interval)
 	results := overlapping(candidates, interval)
 
 	validResults := queryIntervals(interval)
-	fmt.Println(len(candidates), "can")
-	fmt.Println(len(results), "results")
-	fmt.Println(len(validResults), "valid results")
+
+	//fmt.Println(len(results), "results")
+	//fmt.Println(len(validResults), "valid results")
+	if len(results) != len(validResults) {
+		t.Error("failed")
+	}
+
 }
 
-func overlapping(items []interface{}, search Interval) []interface{} {
+func overlapping(items *[]interface{}, search Interval) []interface{} {
 	var result []interface{}
-	for _, v := range items {
+	for _, v := range *items {
+		if v == nil {
+			continue
+		}
 		i := v.(Interval)
 		if i.overlaps(search) {
 			result = append(result, i)
@@ -81,5 +88,6 @@ func queryIntervals(search Interval) (results []Interval) {
 func TestBT(t *testing.T) {
 	_, _, _, cs := initArgs()
 	initTree()
-	queryGrid(100, cs)
+	fmt.Printf("depth = %d  size = %d\n", tree.depth(), tree.size())
+	queryGrid(100, cs, t)
 }

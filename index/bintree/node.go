@@ -35,23 +35,23 @@ func createExpanded(node *Node, add Interval) *Node {
 func (nb *NodeBase) add(item interface{}) {
 	nb.Items = append(nb.Items, item)
 }
-func (nb *NodeBase) addAll(items []interface{}) []interface{} {
+func (nb *NodeBase) addAll(items []interface{}) *[]interface{} {
 	items = append(items, nb.Items...)
 	for _, v := range nb.children {
 		if v != nil {
 			v.Items = append(v.Items, items...)
 		}
 	}
-	return items
+	return &items
 }
 
-func (nb *NodeBase) addAllOverlapingItems(interval Interval, result []interface{}) []interface{} {
+func (nb *NodeBase) addAllOverlapingItems(interval Interval, result *[]interface{}) *[]interface{} {
 
 	if !interval.isEmpty() && !nb.isSearchMatch(interval) {
 		return result
 	}
 
-	result = append(result, nb.Items...)
+	*result = append(*result, nb.Items...)
 	//fmt.Println(nb.Items,interval)
 
 	for _, v := range nb.children {
@@ -115,7 +115,7 @@ func (nb *NodeBase) isPrunable() bool {
 func (nb *NodeBase) depth() int {
 	childMaxDepth := 0
 	for i := 0; i < 2; i++ {
-		if !(nb.children[i] == nil) {
+		if nb.children[i] != nil {
 			childDpt := nb.children[i].depth()
 			if childDpt > childMaxDepth {
 				childMaxDepth = childDpt
@@ -128,7 +128,7 @@ func (nb *NodeBase) depth() int {
 func (nb *NodeBase) size() int {
 	childSize := 0
 	for i := 0; i < 2; i++ {
-		if !(nb.children[i] == nil) {
+		if nb.children[i] != nil {
 			childSize += nb.children[i].size()
 		}
 	}
@@ -139,7 +139,7 @@ func (nb *NodeBase) size() int {
 func (nb *NodeBase) nodeSize() int {
 	childSize := 0
 	for i := 0; i < 2; i++ {
-		if !(nb.children[i] == nil) {
+		if nb.children[i] != nil {
 			childSize += nb.children[i].nodeSize()
 		}
 	}
@@ -266,11 +266,11 @@ func (n *Node) createChild(index int) (child *Node) {
 
 func (n *Node) createExpanded(node *Node, interval Interval) *Node {
 	expand := NewInterval(interval.min(), interval.max())
-	if node == nil {
+	if node != nil {
 		expand.expandToContain(node.interval)
 	}
 	larger := NewNodeByInterval(expand)
-	if node == nil {
+	if node != nil {
 		larger.insert(node)
 	}
 	return larger
