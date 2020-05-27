@@ -27,4 +27,5 @@
 
 * [概述](index/intro.md)
 * [二叉树](index/bintree.md)
+* [STR-R树](index/strtree.md)
 
