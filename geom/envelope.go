@@ -75,6 +75,13 @@ func (e *Envelope) Centre() *Coordinate {
 	return &c
 
 }
+func (e *Envelope) CentreXY() (float64, float64) {
+	if e.isEmpty() {
+		return 0, 0
+	}
+	return (e.Left() + e.Right()) / 2, (e.Top() + e.Bottom()) / 2
+
+}
 
 func (e *Envelope) Intersects(other *Envelope) bool {
 	if e.isEmpty() || other.isEmpty() {
