@@ -8,8 +8,8 @@ type Node struct {
 	level          int
 }
 
-func (n *Node) computeBounds() geom.Envelope {
-
+func (n *Node) computeBounds() *geom.Envelope {
+	return geom.NewEmptyEnvelope()
 }
 
 func (n *Node) Size() int {
