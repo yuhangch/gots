@@ -13,7 +13,13 @@ func TestSort(t *testing.T) {
 	e3 := geom.NewEnvelope([4]float64{2, 3, 3, 2})
 	e4 := geom.NewEnvelope([4]float64{3, 4, 4, 3})
 	b = append(b, e2, e1, e4, e3)
-	b.Sort()
+	b.SortX()
+	for _, v := range b {
+		fmt.Println(v.Centre())
+
+	}
+	b.SortY()
+
 	for _, v := range b {
 		fmt.Println(v.Centre())
 
