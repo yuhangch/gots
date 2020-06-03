@@ -3,9 +3,9 @@ package strtree
 import "github.com/yuhangch/gots/geom"
 
 type Node struct {
-	childBoundales []interface{}
-	bounds         interface{}
-	level          int
+	boundaries []*geom.Envelope
+	boundary   *geom.Envelope
+	level      int
 }
 
 func NewNode(level int) *Node {
@@ -19,15 +19,20 @@ func (n *Node) computeBounds() *geom.Envelope {
 }
 
 func (n *Node) Size() int {
-	return len(n.childBoundales)
+	return len(n.boundaries)
 }
 
-func (n *Node) appendChildBounds(b interface{}) {
-	n.childBoundales = append(n.childBoundales, b)
+func (n *Node) append(b *geom.Envelope) {
+	n.boundaries = append(n.boundaries, b)
 }
 
 type Nodes []*Node
 
 func (n *Nodes) lastNode() *Node {
 	return (*n)[len(*n)-1]
+}
+
+type Leaf struct {
+	Node
+	Items geom.GeometryCollection
 }

@@ -6,9 +6,6 @@ import (
 
 type Envelope [4]float64
 
-type wrapper interface {
-}
-
 func (e *Envelope) Left() float64 {
 	return e[0]
 }
@@ -115,13 +112,24 @@ func (e *Envelope) Intersection(envelope *Envelope) *Envelope {
 	return NewEnvelope([4]float64{left, top, right, bottom})
 }
 
-func (e *Envelope) wrapMultiType(item interface{}, func1 func(point Point) bool, func2 func(envelope Envelope) bool) bool {
+func (e *Envelope) wrapBool(item interface{}, func1 func(point Point) bool, func2 func(envelope Envelope) bool) bool {
 	v := item
 	switch v.(type) {
 	case Point:
 		return func1(v.(Point))
 	case Envelope:
 		return func2(v.(Envelope))
+	default:
+		panic("no support type.")
+	}
+}
+func (e *Envelope) wrapVoid(item interface{}, func1 func(point Point), func2 func(envelope Envelope)) {
+	v := item
+	switch v.(type) {
+	case Point:
+		func1(v.(Point))
+	case Envelope:
+		func2(v.(Envelope))
 	default:
 		panic("no support type.")
 	}
@@ -137,7 +145,7 @@ func (e *Envelope) Contains(item interface{}) bool {
 	//default:
 	//	return false
 	//}
-	return e.wrapMultiType(item, e.containsPoint, e.containsOther)
+	return e.wrapBool(item, e.containsPoint, e.containsOther)
 }
 
 func (e *Envelope) containsPoint(p Point) bool {
@@ -155,7 +163,7 @@ func (e *Envelope) containsOther(other Envelope) bool {
 }
 
 func (e *Envelope) Covers(item interface{}) bool {
-	return e.wrapMultiType(item, e.coversPoint, e.coversOther)
+	return e.wrapBool(item, e.coversPoint, e.coversOther)
 }
 
 func (e *Envelope) coversOther(other Envelope) bool {
@@ -176,4 +184,57 @@ func (e *Envelope) coversPoint(other Point) bool {
 		other.X() <= e.Right() &&
 		other.X() <= e.Top() &&
 		other.X() >= e.Bottom()
+}
+
+func (e *Envelope) Expand(item interface{}) {
+	e.wrapVoid(item, e.expandForPoint, e.expandForOther)
+}
+
+func (e *Envelope) expandForPoint(p Point) {
+	if e.isEmpty() {
+		e[0] = p.X()
+		e[1] = p.Y()
+		e[2] = p.X()
+		e[3] = p.X()
+	} else {
+		if p.X() < e.Left() {
+			e[0] = p.X()
+		}
+		if p.X() > e.Right() {
+			e[2] = p.X()
+		}
+		if p.Y() > e.Top() {
+			e[1] = p.Y()
+		}
+		if p.Y() < e.Bottom() {
+			e[3] = p.Y()
+		}
+	}
+
+}
+
+func (e *Envelope) expandForOther(other Envelope) {
+	if other.isEmpty() {
+		return
+	}
+	if e.isEmpty() {
+		e[0] = other.Left()
+		e[1] = other.Top()
+		e[2] = other.Right()
+		e[3] = other.Bottom()
+	} else {
+		if other.Left() < e.Left() {
+			e[0] = other.Left()
+		}
+		if other.Right() > e.Right() {
+			e[2] = other.Right()
+		}
+		if other.Top() > e.Top() {
+			e[1] = other.Top()
+		}
+		if other.Bottom() < e.Bottom() {
+			e[3] = other.Bottom()
+		}
+	}
+
 }
