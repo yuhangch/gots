@@ -1,10 +1,15 @@
 package strtree
 
+import (
+	"github.com/yuhangch/gots/geom"
+)
+
 const (
 	DefaultNodeCapacity int = 10
 )
 
 type STRTree struct {
+	root         *Node
 	nodeCapacity int
 }
 
@@ -14,6 +19,27 @@ func NewSTRTree(capacity int) *STRTree {
 	}
 	return &STRTree{
 		nodeCapacity: capacity,
+	}
+}
+
+func (str *STRTree) Query(search *geom.Envelope) *geom.GeometryCollection {
+	var matches *geom.GeometryCollection
+	if str.root == nil {
+		return matches
+	}
+	if str.root.boundary.Intersects(search) {
+		query(search, root, matches)
+	}
+}
+
+func (str *STRTree) query(search *geom.Envelope, node *NodeBase, matches *geom.GeometryCollection) *geom.GeometryCollection {
+	children := (*node).Children()
+	for _, v := range *children {
+		item := *v
+		if _, ok := item.(Leaf); ok {
+			matches = append(matches, item.Children()...)
+		}
+
 	}
 }
 

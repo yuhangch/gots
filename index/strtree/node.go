@@ -2,10 +2,18 @@ package strtree
 
 import "github.com/yuhangch/gots/geom"
 
+type NodeBase interface {
+	Children() *Nodes
+}
+
 type Node struct {
-	boundaries []*geom.Envelope
+	boundaries *Nodes
 	boundary   *geom.Envelope
 	level      int
+}
+
+func (n Node) Children() *Nodes {
+	return n.boundaries
 }
 
 func NewNode(level int) *Node {
@@ -19,20 +27,24 @@ func (n *Node) computeBounds() *geom.Envelope {
 }
 
 func (n *Node) Size() int {
-	return len(n.boundaries)
+	return len(*(n.boundaries))
 }
 
-func (n *Node) append(b *geom.Envelope) {
-	n.boundaries = append(n.boundaries, b)
+func (n *Node) append(child *Node) {
+	*(n.boundaries) = append(*(n.boundaries), child)
 }
 
-type Nodes []*Node
+type Nodes []*NodeBase
 
-func (n *Nodes) lastNode() *Node {
+func (n *Nodes) lastNode() *NodeBase {
 	return (*n)[len(*n)-1]
 }
 
 type Leaf struct {
 	Node
 	Items geom.GeometryCollection
+}
+
+func (l Leaf) Children() *Nodes {
+	return l.boundaries
 }
