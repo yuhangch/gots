@@ -30,10 +30,6 @@ func (n *Node) Size() int {
 	return len(*(n.boundaries))
 }
 
-func (n *Node) append(child *Node) {
-	*(n.boundaries) = append(*(n.boundaries), child)
-}
-
 type Nodes []*NodeBase
 
 func (n *Nodes) lastNode() *NodeBase {
