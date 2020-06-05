@@ -6,17 +6,14 @@ type NodeBase interface {
 	Children() *Nodes
 }
 
-func (n NodeBase) append(n2 *NodeBase) {
-
-}
-
 type Node struct {
 	boundaries *Nodes
 	boundary   *geom.Envelope
 	level      int
 }
 
-func (n Node) Children() *Nodes {
+// Children Get Node's Children
+func (n *Node) Children() *Nodes {
 	return n.boundaries
 }
 
