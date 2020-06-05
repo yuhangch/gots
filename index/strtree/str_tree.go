@@ -43,6 +43,15 @@ func (str *STRTree) query(search *geom.Envelope, node *NodeBase, matches *geom.G
 	}
 }
 
+func (str *STRTree) testFunc() {
+	if 1 > 0 {
+		return
+	}
+}
+
+type i struct {
+}
+
 //func (str *STRTree) verticalSlices(childBoundales Bounds, sliceCount int) []Bounds {
 //	cur := 0
 //	capacity := int(math.Ceil(float64(len(childBoundales)) / float64(sliceCount)))

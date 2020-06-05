@@ -6,6 +6,10 @@ type NodeBase interface {
 	Children() *Nodes
 }
 
+func (n NodeBase) append(n2 *NodeBase) {
+
+}
+
 type Node struct {
 	boundaries *Nodes
 	boundary   *geom.Envelope

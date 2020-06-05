@@ -2,8 +2,9 @@ package strtree
 
 import (
 	"fmt"
-	"github.com/yuhangch/gots/geom"
 	"testing"
+
+	"github.com/yuhangch/gots/geom"
 )
 
 func TestSort(t *testing.T) {
