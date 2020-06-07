@@ -8,8 +8,8 @@ func (r LinearRing) Type() string {
 	return string(LINEAR_RING)
 }
 
-func (r LinearRing) Envelope() Envelope {
-	return Envelope{}
+func (r LinearRing) Envelope() *Envelope {
+	return pointsEnvelope(r)
 }
 
 func (r LinearRing) Valid() bool {

@@ -195,7 +195,7 @@ func (e *Envelope) expandForPoint(p Point) {
 		e[0] = p.X()
 		e[1] = p.Y()
 		e[2] = p.X()
-		e[3] = p.X()
+		e[3] = p.Y()
 	} else {
 		if p.X() < e.Left() {
 			e[0] = p.X()

@@ -13,8 +13,10 @@ func (p Point) Type() string {
 	return string(PointType)
 }
 
-func (p Point) Envelope() Envelope {
-	return Envelope{}
+func (p Point) Envelope() *Envelope {
+	e := NewEmptyEnvelope()
+	e.Expand(p)
+	return e
 }
 
 func (p Point) Equals(p2 Point) bool {
