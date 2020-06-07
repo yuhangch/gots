@@ -13,7 +13,7 @@ func (r LinearRing) Envelope() *Envelope {
 }
 
 func (r LinearRing) Valid() bool {
-	if len(r) == 0 {
+	if len(r) < 3 {
 		return false
 	}
 	if r[0].Equals(r[len(r)-1]) {
