@@ -12,6 +12,7 @@ func (l LineString) Envelope() *Envelope {
 
 func NewLineString(cs []Point) LineString {
 	return cs
+
 }
 
 func pointsEnvelope(pts []Point) *Envelope {

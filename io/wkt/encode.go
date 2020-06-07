@@ -12,7 +12,18 @@ func ptsToStr(points []geom.Point) string {
 		return ""
 	}
 	for _, v := range points {
-		merge = append(merge, fmt.Sprintf("%f %f", v.X(), v.Y()))
+		merge = append(merge, encodePoint(v))
+	}
+	return strings.Join(merge, ", ")
+
+}
+func ptsListToStr(list [][]geom.Point) string {
+	var merge []string
+	if len(list) < 1 {
+		return ""
+	}
+	for _, v := range list {
+		merge = append(merge, "("+ptsToStr(v)+")")
 	}
 	return strings.Join(merge, ", ")
 
@@ -27,6 +38,15 @@ func encodeLineString(l geom.LineString) string {
 	return ptsToStr(l)
 }
 
+func encodePolygon(p geom.Polygon) string {
+	var list [][]geom.Point
+	for _, v := range p {
+		var l []geom.Point = v
+		list = append(list, l)
+	}
+	return ptsListToStr(list)
+}
+
 func encode(g geom.Geometry) string {
 	var enc string
 	geomType := g.Type()
@@ -35,6 +55,8 @@ func encode(g geom.Geometry) string {
 		enc = encodePoint(g.(geom.Point))
 	case "LineString":
 		enc = encodeLineString(g.(geom.LineString))
+	case "Polygon":
+		enc = encodePolygon(g.(geom.Polygon))
 
 	}
 	wkt := fmt.Sprintf("%s (%s)", strings.ToUpper(geomType), enc)

@@ -17,8 +17,9 @@ func TestParseLineString(t *testing.T) {
 }
 
 func TestParsePolygon(t *testing.T) {
-	txt := "POLYGON (geo(35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
-	Read(txt)
+	txt := "POLYGON ((35 10, 45 45, 15 40, 10 20, 35 10),(20 30, 35 35, 30 20, 20 30))"
+	g := Read(txt)
+	Write(g)
 }
 
 func TestParseMultiPoint(t *testing.T) {
