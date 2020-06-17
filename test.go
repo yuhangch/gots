@@ -50,3 +50,15 @@ type Person struct {
 }
 
 // test commit
+
+// Test to test user snippets.
+type Test struct {
+	name  string
+	color float64
+}
+
+// TestFunc to test fun snippets.
+func TestFunc(name string) string {
+	fmt.Printf("%s\n", "")
+	return ""
+}
