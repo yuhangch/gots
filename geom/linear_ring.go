@@ -2,10 +2,11 @@ package geom
 
 import "fmt"
 
-type LinearRing LineString
+// LinearRing struct
+type LinearRing []Point
 
 func (r LinearRing) Type() string {
-	return string(LINEAR_RING)
+	return "LinearRing"
 }
 
 func (r LinearRing) Envelope() *Envelope {

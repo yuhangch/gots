@@ -1,5 +1,6 @@
 package geom
 
+// MultiPolygon the struct of MuiliPolygon
 type MultiPolygon []Polygon
 
 func (mp MultiPolygon) Envelope() *Envelope {
@@ -11,5 +12,5 @@ func (mp MultiPolygon) Envelope() *Envelope {
 }
 
 func (mp MultiPolygon) Type() string {
-	return MULTI_POLYGON
+	return "MultiPolygon"
 }
