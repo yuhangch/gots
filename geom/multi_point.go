@@ -3,7 +3,7 @@ package geom
 type MultiPoint []Point
 
 func (mp MultiPoint) Type() string {
-	return MULTI_POINT
+	return "MultiPoint"
 }
 
 func (mp MultiPoint) Envelope() *Envelope {

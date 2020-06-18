@@ -60,5 +60,5 @@ func TestFun2(t *testing.T) {
 
 // getHome to ge home.
 func getHome() string {
-	return ""
+	return "三脚架家"
 }

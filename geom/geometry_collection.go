@@ -7,5 +7,5 @@ func (gc GeometryCollection) Envelope() *Envelope {
 }
 
 func (gc GeometryCollection) Type() string {
-	return GEOMETRY_COLLECTION
+	return "GeometryCollection"
 }

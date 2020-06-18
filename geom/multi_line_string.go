@@ -3,7 +3,7 @@ package geom
 type MultiLineString []LineString
 
 func (ml MultiLineString) Type() string {
-	return MULTI_LINE_STRING
+	return "MultiLineString"
 }
 
 func (ml MultiLineString) Envelope() *Envelope {
