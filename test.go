@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 func main() {
 	for i := 0; i < 4; i++ {
@@ -18,38 +21,14 @@ func test() {
 func wode() {
 }
 
+// Area to caculate area
 func Area(ok int) float64 {
 	return float64(ok)
 }
 
+// Point to generate point
 type Point struct {
 }
-
-type jj struct {
-	x float64
-}
-
-func (p Point) Area() float64 {
-	fmt.Println("wtf")
-	return 0
-
-}
-
-type Hello struct {
-	name  string
-	first string
-}
-
-type Haha interface {
-}
-
-type Person struct {
-	name   string
-	age    int
-	school string
-}
-
-// test commit
 
 // Test to test user snippets.
 type Test struct {
@@ -60,5 +39,26 @@ type Test struct {
 // TestFunc to test fun snippets.
 func TestFunc(name string) string {
 	fmt.Printf("%s\n", "")
+
+	return ""
+}
+
+// TestCommentMethod to test comment for method.
+func TestCommentMethod(name string) string {
+	return "ok"
+}
+
+// Do to do some thing for test.
+func (test *Test) Do() {
+	fmt.Println()
+}
+
+// Test .
+func TestFun2(t *testing.T) {
+
+}
+
+// getHome to ge home.
+func getHome() string {
 	return ""
 }
