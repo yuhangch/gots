@@ -15,3 +15,5 @@ func (p Coordinate) X() float64 {
 func (p Coordinate) Y() float64 {
 	return p[1]
 }
+
+

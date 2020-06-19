@@ -2,14 +2,12 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"testing"
 )
 
 func main() {
-	for i := 0; i < 4; i++ {
-		fmt.Println(i)
-	}
-	fmt.Println("")
+	fmt.Println(math.Nextafter(1, 2) - 1)
 }
 
 func test() {
