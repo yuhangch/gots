@@ -68,7 +68,7 @@ func (e *Envelope) Centre() *Coordinate {
 		return nil
 	}
 	x, y := (e.Left()+e.Right())/2, (e.Top()+e.Bottom())/2
-	c := NewCoordinate([]float64{x, y})
+	c := NewCoordinate(x, y)
 	return &c
 
 }

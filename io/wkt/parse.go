@@ -2,8 +2,9 @@ package wkt
 
 import (
 	"fmt"
-	"github.com/yuhangch/gots/geom"
 	"strconv"
+
+	"github.com/yuhangch/gots/geom"
 )
 
 type Parser struct {
@@ -117,7 +118,7 @@ func (p *Parser) parsePoint() geom.Geometry {
 		}
 	}
 
-	return geom.NewCoordinate(digits)
+	return geom.NewCoordinate(digits[0], digits[1])
 }
 
 func (p *Parser) parsePointList() geom.Geometry {
