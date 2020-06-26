@@ -16,6 +16,7 @@
 * [线段交点](geometric/segment-intersection.md)
 * [计算边缘距离](geometric/compute-edge-distance.md)
 * [空间关系计算](geometric/spatial-rs.md)
+* [凸包计算](geometric/tu-bao-ji-suan.md)
 
 ## simplify
 
