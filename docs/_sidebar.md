@@ -25,12 +25,9 @@
   - [维斯瓦林甘算法](simplify/vm.md)
   - [Opt Perkal‘s](simplify/opt-perkals.md)
 
-- index
+- INDEX
 
   - [概述](index/intro.md)
   - [二叉树](index/bintree.md)
   - [STR-R树](index/strtree.md)
 
-- io
-
-  - [wkt](io/wkt.md)
