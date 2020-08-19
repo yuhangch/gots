@@ -10,7 +10,7 @@
 * 判断：若该距离小于所要求的阈值，则所有中间节点都被舍去。
 * 否则，将该点标记为保留，并将区间一分为二，对两部分重复上述步骤。
 
-{% hint style="info" %}
+{% hint "info" %}
 Golang 实现在 gots/algorithm/simplify/dp.go
 {% endhint %}
 
